@@ -13,12 +13,13 @@ The program should create a 10x10 grid, and place a number of ships on the grid 
 
 The player enters coordinates of the form “A5”, where "A" is the column and "5" is the row, to specify a square to target. Shots result in hits, misses or sinks. The game ends when all ships are sunk.
 
-## Build
+## Build & Run
 
 ### Native
 
 ```bash
 cargo build
+cargo run
 ```
 
 ### WASM for Node.js
@@ -33,19 +34,6 @@ wasm-pack build --release --target=nodejs -- --features wasm
 ```bash
 rustup target add wasm32-wasi
 cargo build --release  --target wasm32-wasi
-```
-
-### Run
-
-### Native
-
-```bash
-cargo run
-```
-
-### WASM with WASI
-
-```bash
 cd target/wasm32-wasi/release
 wasmtime battlerust.wasm
 ```
