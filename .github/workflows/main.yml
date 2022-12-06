@@ -59,6 +59,6 @@ jobs:
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
         with:
-          name: battlerust.${{ matrix.rust-version }}.wasm
+          name: battlerust-wasi.${{ matrix.rust-version }}.wasm
           path: target/wasm32-wasi/release/battlerust.wasm
           retention-days: 15
