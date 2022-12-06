@@ -59,5 +59,5 @@ jobs:
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
         with:
-          name: battlerust.wasm
+          name: battlerust.${{ matrix.rust-version }}.wasm
           path: target/wasm32-wasi/release/battlerust.wasm
