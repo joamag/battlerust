@@ -147,7 +147,7 @@ impl Battleship {
             _ => println!("error"), // this must be replaced with an error
         }
 
-        let x = (coordinate.chars().nth(0).unwrap() as u8 - 65) as u8;
+        let x = (coordinate.chars().next().unwrap() as u8 - 65) as u8;
         let y = (coordinate[1..].parse::<u8>().unwrap() - 1) as u8;
 
         self._shoot(x, y)
@@ -179,7 +179,7 @@ impl Battleship {
             _ => (),
         }
 
-        return (result, position);
+        (result, position)
     }
 }
 
