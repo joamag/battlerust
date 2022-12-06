@@ -1,4 +1,4 @@
-# Battlerust
+# Battlerust 🦀 + 🛥️
 
 A Battleship game implementation in Rust 🦀.
 
