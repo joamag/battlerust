@@ -183,11 +183,23 @@ impl Battleship {
     }
 }
 
+impl Default for Battleship {
+    fn default() -> Self {
+        Self::new((10, 10), true)
+    }
+}
+
 impl Position {
     pub fn new() -> Self {
         Self {
             kind: Square::Water,
             vessel_id: -1,
         }
+    }
+}
+
+impl Default for Position {
+    fn default() -> Self {
+        Self::new()
     }
 }
