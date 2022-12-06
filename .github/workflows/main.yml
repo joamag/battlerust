@@ -61,3 +61,4 @@ jobs:
         with:
           name: battlerust.${{ matrix.rust-version }}.wasm
           path: target/wasm32-wasi/release/battlerust.wasm
+          retention-days: 15
