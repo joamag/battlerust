@@ -7,18 +7,3 @@ license = "Apache-2.0"
 repository = "https://github.com/joamag/battlerust"
 keywords = ["battleship", "game", "rust"]
 edition = "2018"
-
-[lib]
-crate-type = ["cdylib", "rlib"]
-
-[features]
-wasm = ["wasm-bindgen"]
-debug = []
-
-[dependencies]
-wasm-bindgen = { version = "0.2", optional = true }
-
-[profile.release]
-debug = false
-lto = true
-opt-level = 3
