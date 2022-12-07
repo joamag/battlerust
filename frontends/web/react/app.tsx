@@ -164,6 +164,9 @@ export const App: FC<AppProps> = ({ game, background }) => {
                         </Link>
                         .
                     </Paragraph>
+                    <Paragraph>
+                        TIP: Start by clicking in a 📦 and see what happens.
+                    </Paragraph>
                 </Section>
                 <Section>
                     <ButtonContainer>
