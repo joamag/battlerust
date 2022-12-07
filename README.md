@@ -37,3 +37,9 @@ cargo build --release  --target wasm32-wasi
 cd target/wasm32-wasi/release
 wasmtime battlerust.wasm
 ```
+
+## Build Automation
+
+[![Build Status](https://github.com/joamag/battlerust/workflows/Main%20Workflow/badge.svg)](https://github.com/joamag/battlerust/actions)
+[![crates Status](https://img.shields.io/crates/v/battlerust)](https://crates.io/crates/battlerust)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://www.apache.org/licenses/)
