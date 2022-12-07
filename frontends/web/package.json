@@ -1,0 +1,36 @@
+{
+    "name": "battlerust-web",
+    "version": "0.6.6",
+    "description": "The web version of Battlerust",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/joamag/battlerust.git"
+    },
+    "license": "Apache-2.0",
+    "scripts": {
+        "build": "parcel build index.html",
+        "dev": "parcel index.html",
+        "lint": "eslint .",
+        "nodemon": "nodemon --exec \"parcel --no-cache index.html\"",
+        "pretty": "prettier --config .prettierrc \"./**/*.{js,ts,tsx,json}\" --write",
+        "start": "npm run build",
+        "watch": "parcel watch index.html"
+    },
+    "source": "index.ts",
+    "devDependencies": {
+        "@parcel/transformer-typescript-tsc": "^2.8.0",
+        "@types/react": "^18.0.25",
+        "@types/react-dom": "^18.0.9",
+        "@typescript-eslint/eslint-plugin": "^5.44.0",
+        "@typescript-eslint/parser": "^5.44.0",
+        "emukit": "^0.6.0",
+        "eslint": "^8.28.0",
+        "nodemon": "^2.0.20",
+        "parcel": "^2.8.0",
+        "prettier": "^2.8.0",
+        "process": "^0.11.10",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "typescript": "^4.9.3"
+    }
+}

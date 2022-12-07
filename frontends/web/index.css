@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
+
+* {
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+html {
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    touch-action: pan-x pan-y;
+}
+
+body {
+    color: #ffffff;
+    font-family: "VT323", "Roboto", "Open Sans", Arial, Helvetica, sans-serif;
+    margin: 0px 0px 0px 0px;
+    padding: 12px 12px 52px 12px;
+}

@@ -1,8 +1,6 @@
-pub mod game;
-
 use std::io::{self, Write};
 
-use crate::game::{Battleship, Square};
+use battlerust::game::{Battleship, Square};
 
 fn main() {
     println!("Welcome to Battleship 🛥️");
