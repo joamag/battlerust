@@ -1,32 +1,13 @@
 import React, { FC } from "react";
-import {
-    Battleship,
-    square_to_emoji,
-    number_to_square,
-    Square as _Square
-} from "../../../lib/battlerust";
+import Square from "../square/square";
+import { Battleship, number_to_square } from "../../../lib/battlerust";
 
 import "./board.css";
-
-type SquareProps = {
-    square: _Square;
-    style?: string[];
-    onClick?: () => void;
-};
 
 type BoardProps = {
     game: Battleship;
     style?: string[];
     onSquareClick?: (coordinate: string) => void;
-};
-
-export const Square: FC<SquareProps> = ({ square, style = [], onClick }) => {
-    const classes = () => ["square", ...style].join(" ");
-    return (
-        <span className={classes()} onClick={onClick}>
-            {square_to_emoji(square)}
-        </span>
-    );
 };
 
 export const Board: FC<BoardProps> = ({ game, style = [], onSquareClick }) => {

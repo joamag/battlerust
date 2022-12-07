@@ -56,13 +56,17 @@ export const App: FC<AppProps> = ({ game, background }) => {
 
         if ([Square.Battleship, Square.Destroyer].includes(position.kind)) {
             showToast(
-                `${square_to_emoji(position.kind)} You ${result_to_text(
+                `${square_to_emoji(
+                    position.kind
+                )} ${coordinate} - You ${result_to_text(
                     result
                 )} a ${square_to_text(position.kind)}`
             );
         } else {
             showToast(
-                `${square_to_emoji(position.kind)} You ${result_to_text(
+                `${square_to_emoji(
+                    position.kind
+                )} ${coordinate} - You ${result_to_text(
                     result
                 )} (${square_to_text(position.kind)})`,
                 true
