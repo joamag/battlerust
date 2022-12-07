@@ -1,5 +1,5 @@
-import { startApp } from "./react/app";
+import { startApp } from "./react";
 
 (async () => {
-    await startApp("app", {});
+    await startApp("app", { background: "264653" });
 })();
