@@ -305,3 +305,8 @@ impl Display for Result {
         }
     }
 }
+
+#[cfg_attr(feature = "wasm", wasm_bindgen)]
+pub fn size(width: u8, height: u8) -> Size {
+    Size(width, height)
+}
