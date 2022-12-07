@@ -91,12 +91,12 @@ impl Battleship {
 
     pub fn restart(&mut self) {
         self.grid = (0..self.height)
-                .map(|_| {
-                    (0..self.width)
-                        .map(|_| Position::new())
-                        .collect::<Vec<Position>>()
-                })
-                .collect::<Vec<Vec<Position>>>();
+            .map(|_| {
+                (0..self.width)
+                    .map(|_| Position::new())
+                    .collect::<Vec<Position>>()
+            })
+            .collect::<Vec<Vec<Position>>>();
         self.pending = Vec::new();
         self.vessel_counter = 0;
         self.allocate(vec![
