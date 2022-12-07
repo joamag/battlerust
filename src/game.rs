@@ -201,12 +201,11 @@ impl Battleship {
     pub fn board(&self) -> Vec<u8> {
         self.grid
             .iter()
-            .map(|line| {
+            .flat_map(|line| {
                 line.iter()
                     .map(|position| position.kind.number())
                     .collect::<Vec<u8>>()
             })
-            .flatten()
             .collect::<Vec<u8>>()
     }
 
