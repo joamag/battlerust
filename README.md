@@ -18,24 +18,29 @@ The player enters coordinates of the form “A5”, where "A" is the column and 
 ### Native
 
 ```bash
+cd frontends/console
 cargo build
 cargo run
 ```
 
-### WASM for Node.js
+### WASM for Web
 
 ```bash
 cargo install wasm-pack
-wasm-pack build --release --target=nodejs -- --features wasm
+wasm-pack build --release --target=web --out-dir=frontends/web/lib -- --features wasm
+cd frontends/web
+npm install && npm run build
+cd dist && python3 -m http.server
 ```
 
 ### WASM with WASI
 
 ```bash
+cd frontends/console
 rustup target add wasm32-wasi
 cargo build --release  --target wasm32-wasi
-cd target/wasm32-wasi/release
-wasmtime battlerust.wasm
+cd ../../target/wasm32-wasi/release
+wasmtime battlerust-console.wasm
 ```
 
 ## WASM Console

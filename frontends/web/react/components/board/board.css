@@ -1,0 +1,11 @@
+.board {
+    background-color: #1b1a17;
+    border: 2px solid #50cb93;
+    padding: 8px 8px 8px 8px;
+    user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+}

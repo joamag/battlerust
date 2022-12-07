@@ -1,18 +1,22 @@
-pub mod game;
-
 use std::io::{self, Write};
 
-use crate::game::{Battleship, Square};
+use battlerust::game::{Battleship, Size, Square};
 
 fn main() {
     println!("Welcome to Battleship 🛥️");
     println!("You can use the HELP command to obtain help");
 
-    let mut game = Battleship::new((10, 10), true);
+    let mut game = Battleship::new(Size(10, 10), true);
 
     let mut line;
 
     loop {
+        if game.finished() {
+            println!("{}", game.repr(true, true));
+            println!("You just won the game, congratulations 🎉");
+            break;
+        }
+
         line = String::new();
 
         print!(">> ");
