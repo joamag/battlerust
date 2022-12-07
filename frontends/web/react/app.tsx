@@ -81,7 +81,9 @@ export const App: FC<AppProps> = ({ game, background }) => {
                     position.kind
                 )} ${coordinate} - You ${result_to_text(
                     result
-                )} a ${square_to_text(position.kind)}`
+                )} a ${square_to_text(position.kind)}`,
+                false,
+                1000
             );
         } else {
             showToast(
@@ -90,7 +92,8 @@ export const App: FC<AppProps> = ({ game, background }) => {
                 )} ${coordinate} - You ${result_to_text(
                     result
                 )} (${square_to_text(position.kind)})`,
-                true
+                true,
+                1000
             );
         }
 
@@ -114,6 +117,11 @@ export const App: FC<AppProps> = ({ game, background }) => {
         setVisited(visited);
         setGameKey(gameKey + 1);
         showToast("You destroyed the game 💣", true);
+    };
+    const onResetClick = () => {
+        game.restart();
+        setVisited([]);
+        setGameKey(gameKey + 1);
     };
 
     return (
@@ -173,6 +181,14 @@ export const App: FC<AppProps> = ({ game, background }) => {
                 <Section>
                     <ButtonContainer>
                         <Button
+                            text={getShowText()}
+                            image={getShowIcon()}
+                            imageAlt="show"
+                            enabled={gridVisible}
+                            style={["simple", "border", "padded"]}
+                            onClick={onShowClick}
+                        />
+                        <Button
                             text={"Destroy"}
                             image={require("../res/no-entry.svg")}
                             imageAlt="pause"
@@ -180,12 +196,11 @@ export const App: FC<AppProps> = ({ game, background }) => {
                             onClick={onDestroyClick}
                         />
                         <Button
-                            text={getShowText()}
-                            image={getShowIcon()}
-                            imageAlt="show"
-                            enabled={gridVisible}
+                            text={"Reset"}
+                            image={require("../res/reset.svg")}
+                            imageAlt="reset"
                             style={["simple", "border", "padded"]}
-                            onClick={onShowClick}
+                            onClick={onResetClick}
                         />
                     </ButtonContainer>
                 </Section>
