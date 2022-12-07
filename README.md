@@ -38,6 +38,10 @@ cd target/wasm32-wasi/release
 wasmtime battlerust.wasm
 ```
 
+## Web console
+
+You can use [WebAssembly.sh](https://webassembly.sh) to play around with the [WASI](https://wasi.dev/) compliant [WASM](https://webassembly.org/) assembly and interact with this Web shell in the same way as you would in your normal OS shell.
+
 ## Build Automation
 
 [![Build Status](https://github.com/joamag/battlerust/workflows/Main%20Workflow/badge.svg)](https://github.com/joamag/battlerust/actions)
