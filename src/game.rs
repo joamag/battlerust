@@ -64,6 +64,7 @@ pub const SHIPS: (Square, Square) = (Square::Battleship, Square::Destroyer);
 
 #[cfg_attr(feature = "wasm", wasm_bindgen)]
 impl Battleship {
+    #[cfg_attr(feature = "wasm", wasm_bindgen(constructor))]
     pub fn new(size: Size, allocate: bool) -> Self {
         let mut battleship = Self {
             width: size.0,
@@ -180,6 +181,18 @@ impl Battleship {
         result
     }
 
+    pub fn board(&self) -> Vec<u8> {
+        self.grid
+            .iter()
+            .map(|line| {
+                line.iter()
+                    .map(|position| position.kind.number())
+                    .collect::<Vec<u8>>()
+            })
+            .flatten()
+            .collect::<Vec<u8>>()
+    }
+
     fn _shoot(&mut self, x: u8, y: u8) -> Shot {
         let mut result = Result::Miss;
 
@@ -252,7 +265,9 @@ impl Display for Battleship {
     }
 }
 
+#[cfg_attr(feature = "wasm", wasm_bindgen)]
 impl Position {
+    #[cfg_attr(feature = "wasm", wasm_bindgen(constructor))]
     pub fn new() -> Self {
         Self {
             kind: Square::Water,
@@ -268,12 +283,31 @@ impl Default for Position {
 }
 
 impl Square {
+    pub fn from_number(number: u8) -> Square {
+        match number {
+            1 => Square::Water,
+            2 => Square::Debris,
+            3 => Square::Battleship,
+            4 => Square::Destroyer,
+            _ => Square::Water,
+        }
+    }
+
     pub fn value(&self) -> &str {
         match self {
             Square::Water => "1",
             Square::Debris => "2",
             Square::Battleship => "3",
             Square::Destroyer => "4",
+        }
+    }
+
+    pub fn number(&self) -> u8 {
+        match self {
+            Square::Water => 1,
+            Square::Debris => 2,
+            Square::Battleship => 3,
+            Square::Destroyer => 4,
         }
     }
 
@@ -309,4 +343,19 @@ impl Display for Result {
 #[cfg_attr(feature = "wasm", wasm_bindgen)]
 pub fn size(width: u8, height: u8) -> Size {
     Size(width, height)
+}
+
+#[cfg_attr(feature = "wasm", wasm_bindgen)]
+pub fn number_to_square(number: u8) -> Square {
+    Square::from_number(number)
+}
+
+#[cfg_attr(feature = "wasm", wasm_bindgen)]
+pub fn number_to_emoji(number: u8) -> String {
+    Square::from_number(number).emoji().to_string()
+}
+
+#[cfg_attr(feature = "wasm", wasm_bindgen)]
+pub fn square_to_emoji(square: Square) -> String {
+    square.emoji().to_string()
 }

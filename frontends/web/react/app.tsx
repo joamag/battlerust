@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from "react";
 import ReactDOM from "react-dom/client";
-import { Footer, Link, PanelSplit, Section } from "emukit";
+import { Footer, Link, PanelSplit, Paragraph, Section, Title } from "emukit";
 import { Board } from "./components";
 import { Battleship } from "../lib/battlerust";
 
@@ -13,6 +13,7 @@ export const App: FC<AppProps> = ({ game, background }) => {
     useEffect(() => {
         document.body.style.backgroundColor = `#${background}`;
     }, []);
+    setTimeout(() => console.info(game.repr(true, true)));
     return (
         <div>
             <PanelSplit
@@ -22,6 +23,36 @@ export const App: FC<AppProps> = ({ game, background }) => {
                     </div>
                 }
             >
+                <Title
+                    text={"Battlerust"}
+                    version={"0.1.1"}
+                    versionUrl={
+                        "https://github.com/joamag/battlerust/CHANGELOG.md"
+                    }
+                ></Title>
+                <Section>
+                    <Paragraph>
+                        This is a simple Battleship game built using the{" "}
+                        <Link href="https://www.rust-lang.org" target="_blank">
+                            Rust Programming Language
+                        </Link>{" "}
+                        and is running inside this browser with the help of{" "}
+                        <Link href="https://webassembly.org/" target="_blank">
+                            WebAssembly
+                        </Link>
+                        .
+                    </Paragraph>
+                    <Paragraph>
+                        You can check the source code of it on{" "}
+                        <Link
+                            href={"https://github.com/joamag/battlerust"}
+                            target="_blank"
+                        >
+                            GitHub
+                        </Link>
+                        .
+                    </Paragraph>
+                </Section>
                 <Section>This is a regular section ?? buttons??</Section>
             </PanelSplit>
             <Footer color={background}>
