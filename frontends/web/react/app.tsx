@@ -20,6 +20,8 @@ import {
     square_to_text
 } from "../lib/battlerust";
 
+import info from "../package.json";
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const require: any;
 
@@ -137,7 +139,7 @@ export const App: FC<AppProps> = ({ game, background }) => {
             >
                 <Title
                     text={"Battlerust"}
-                    version={"0.1.1"}
+                    version={info.version}
                     versionUrl={
                         "https://github.com/joamag/battlerust/CHANGELOG.md"
                     }
