@@ -1,6 +1,8 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
 import {
+    Button,
+    ButtonContainer,
     Footer,
     Link,
     PanelSplit,
@@ -18,6 +20,9 @@ import {
     square_to_text
 } from "../lib/battlerust";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare const require: any;
+
 type AppProps = {
     game: Battleship;
     background?: string;
@@ -27,12 +32,23 @@ export const App: FC<AppProps> = ({ game, background }) => {
     useEffect(() => {
         document.body.style.backgroundColor = `#${background}`;
     }, []);
+    const [gameKey, setGameKey] = useState(0);
+    const [gridVisible, setGridVisible] = useState(false);
+    const [visited, setVisited] = useState<number[]>([]);
     const [toastText, setToastText] = useState<string>();
     const [toastError, setToastError] = useState(false);
     const [toastVisible, setToastVisible] = useState(false);
 
     const toastCounterRef = useRef(0);
 
+    const getShowText = () => {
+        return gridVisible ? "Grid Visible" : "Grid Hidden";
+    };
+    const getShowIcon = () => {
+        return gridVisible
+            ? require("../res/eye.svg")
+            : require("../res/eye-closed.svg");
+    };
     const showToast = async (text: string, error = false, timeout = 3500) => {
         setToastText(text);
         setToastError(error);
@@ -48,11 +64,14 @@ export const App: FC<AppProps> = ({ game, background }) => {
         });
     };
 
-    const onSquareClick = (coordinate: string) => {
+    const onSquareClick = (coordinate: string, index: number) => {
         const shot = game.shoot(coordinate);
         if (!shot) return;
 
         const [result, position] = [shot[0], shot[1]];
+
+        visited.push(index);
+        setVisited(visited);
 
         if ([Square.Battleship, Square.Destroyer].includes(position.kind)) {
             showToast(
@@ -76,10 +95,23 @@ export const App: FC<AppProps> = ({ game, background }) => {
         if (game.finished()) {
             showToast("You just won the game, congratulations 🎉");
             game.restart();
+            setVisited([]);
         }
     };
     const onToastCancel = () => {
         setToastVisible(false);
+    };
+    const onShowClick = () => {
+        setGridVisible(!gridVisible);
+    };
+    const onDestroyClick = () => {
+        game.destroy();
+        const visited = new Array(game.width * game.height)
+            .fill(0)
+            .map((_, index) => index);
+        setVisited(visited);
+        setGameKey(gameKey + 1);
+        showToast("You destroyed the game 💣", true);
     };
 
     return (
@@ -93,7 +125,13 @@ export const App: FC<AppProps> = ({ game, background }) => {
             <PanelSplit
                 left={
                     <div className="display-container">
-                        <Board game={game} onSquareClick={onSquareClick} />
+                        <Board
+                            key={gameKey}
+                            game={game}
+                            gridVisible={gridVisible}
+                            visited={visited}
+                            onSquareClick={onSquareClick}
+                        />
                     </div>
                 }
             >
@@ -127,7 +165,25 @@ export const App: FC<AppProps> = ({ game, background }) => {
                         .
                     </Paragraph>
                 </Section>
-                <Section>This is a regular section ?? buttons??</Section>
+                <Section>
+                    <ButtonContainer>
+                        <Button
+                            text={"Destroy"}
+                            image={require("../res/no-entry.svg")}
+                            imageAlt="pause"
+                            style={["simple", "border", "padded"]}
+                            onClick={onDestroyClick}
+                        />
+                        <Button
+                            text={getShowText()}
+                            image={getShowIcon()}
+                            imageAlt="show"
+                            enabled={gridVisible}
+                            style={["simple", "border", "padded"]}
+                            onClick={onShowClick}
+                        />
+                    </ButtonContainer>
+                </Section>
             </PanelSplit>
             <Footer color={background}>
                 Built with ❤️ by{" "}
