@@ -11,6 +11,12 @@ fn main() {
     let mut line;
 
     loop {
+        if game.finished() {
+            println!("{}", game.repr(true, true));
+            println!("You just won the game, congratulations 🎉");
+            break;
+        }
+
         line = String::new();
 
         print!(">> ");

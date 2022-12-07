@@ -72,6 +72,11 @@ export const App: FC<AppProps> = ({ game, background }) => {
                 true
             );
         }
+
+        if (game.finished()) {
+            showToast("You just won the game, congratulations 🎉");
+            game.restart();
+        }
     };
     const onToastCancel = () => {
         setToastVisible(false);
