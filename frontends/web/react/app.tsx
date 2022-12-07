@@ -1,8 +1,22 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
-import { Footer, Link, PanelSplit, Paragraph, Section, Title } from "emukit";
+import {
+    Footer,
+    Link,
+    PanelSplit,
+    Paragraph,
+    Section,
+    Title,
+    Toast
+} from "emukit";
 import { Board } from "./components";
-import { Battleship } from "../lib/battlerust";
+import {
+    Battleship,
+    result_to_text,
+    Square,
+    square_to_emoji,
+    square_to_text
+} from "../lib/battlerust";
 
 type AppProps = {
     game: Battleship;
@@ -13,13 +27,64 @@ export const App: FC<AppProps> = ({ game, background }) => {
     useEffect(() => {
         document.body.style.backgroundColor = `#${background}`;
     }, []);
-    setTimeout(() => console.info(game.repr(true, true)));
+    const [toastText, setToastText] = useState<string>();
+    const [toastError, setToastError] = useState(false);
+    const [toastVisible, setToastVisible] = useState(false);
+
+    const toastCounterRef = useRef(0);
+
+    const showToast = async (text: string, error = false, timeout = 3500) => {
+        setToastText(text);
+        setToastError(error);
+        setToastVisible(true);
+        toastCounterRef.current++;
+        const counter = toastCounterRef.current;
+        await new Promise((resolve) => {
+            setTimeout(() => {
+                if (counter !== toastCounterRef.current) return;
+                setToastVisible(false);
+                resolve(true);
+            }, timeout);
+        });
+    };
+
+    const onSquareClick = (coordinate: string) => {
+        const shot = game.shoot(coordinate);
+        if (!shot) return;
+
+        const [result, position] = [shot[0], shot[1]];
+
+        if ([Square.Battleship, Square.Destroyer].includes(position.kind)) {
+            showToast(
+                `${square_to_emoji(position.kind)} You ${result_to_text(
+                    result
+                )} a ${square_to_text(position.kind)}`
+            );
+        } else {
+            showToast(
+                `${square_to_emoji(position.kind)} You ${result_to_text(
+                    result
+                )} (${square_to_text(position.kind)})`,
+                true
+            );
+        }
+    };
+    const onToastCancel = () => {
+        setToastVisible(false);
+    };
+
     return (
         <div className="app">
+            <Toast
+                text={toastText}
+                error={toastError}
+                visible={toastVisible}
+                onCancel={onToastCancel}
+            />
             <PanelSplit
                 left={
                     <div className="display-container">
-                        <Board game={game} />
+                        <Board game={game} onSquareClick={onSquareClick} />
                     </div>
                 }
             >

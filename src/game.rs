@@ -330,13 +330,19 @@ impl Square {
     }
 }
 
+impl Result {
+    pub fn text(&self) -> &str {
+        match self {
+            Result::Miss => "missed",
+            Result::Shot => "shot",
+            Result::Sink => "sank",
+        }
+    }
+}
+
 impl Display for Result {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Result::Miss => write!(f, "missed"),
-            Result::Shot => write!(f, "shot"),
-            Result::Sink => write!(f, "sank"),
-        }
+        write!(f, "{}", self.text())
     }
 }
 
@@ -358,4 +364,14 @@ pub fn number_to_emoji(number: u8) -> String {
 #[cfg_attr(feature = "wasm", wasm_bindgen)]
 pub fn square_to_emoji(square: Square) -> String {
     square.emoji().to_string()
+}
+
+#[cfg_attr(feature = "wasm", wasm_bindgen)]
+pub fn square_to_text(square: Square) -> String {
+    square.text().to_string()
+}
+
+#[cfg_attr(feature = "wasm", wasm_bindgen)]
+pub fn result_to_text(result: Result) -> String {
+    result.text().to_string()
 }

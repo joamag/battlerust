@@ -8,6 +8,8 @@
 .square {
     display: inline-block;
     cursor: pointer;
+    width: 24px;
+    height: 24px;
     transition: transform 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
