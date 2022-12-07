@@ -2,6 +2,10 @@ use std::fmt::Display;
 
 use rand::{random, Rng};
 
+#[cfg(feature = "wasm")]
+use wasm_bindgen::prelude::*;
+
+#[cfg_attr(feature = "wasm", wasm_bindgen)]
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub enum Square {
     Water = 1,
@@ -10,12 +14,14 @@ pub enum Square {
     Destroyer = 4,
 }
 
+#[cfg_attr(feature = "wasm", wasm_bindgen)]
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub enum ShipSize {
     Battleship = 5,
     Destroyer = 4,
 }
 
+#[cfg_attr(feature = "wasm", wasm_bindgen)]
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub enum Result {
     Miss = 1,
@@ -23,18 +29,21 @@ pub enum Result {
     Sink = 3,
 }
 
+#[cfg_attr(feature = "wasm", wasm_bindgen)]
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub enum Direction {
     Vertical = 1,
     Horizontal = 2,
 }
 
+#[cfg_attr(feature = "wasm", wasm_bindgen)]
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub struct Position {
     pub kind: Square,
     pub vessel_id: i16,
 }
 
+#[cfg_attr(feature = "wasm", wasm_bindgen)]
 pub struct Battleship {
     pub width: u8,
     pub height: u8,
@@ -43,12 +52,19 @@ pub struct Battleship {
     vessel_counter: i16,
 }
 
+#[cfg_attr(feature = "wasm", wasm_bindgen)]
+pub struct Size(pub u8, pub u8);
+
+#[cfg_attr(feature = "wasm", wasm_bindgen)]
+pub struct Shot(pub Result, pub Position);
+
 pub const EMPTY: (Square, Square) = (Square::Water, Square::Debris);
 
 pub const SHIPS: (Square, Square) = (Square::Battleship, Square::Destroyer);
 
+#[cfg_attr(feature = "wasm", wasm_bindgen)]
 impl Battleship {
-    pub fn new(size: (u8, u8), allocate: bool) -> Self {
+    pub fn new(size: Size, allocate: bool) -> Self {
         let mut battleship = Self {
             width: size.0,
             height: size.1,
@@ -70,42 +86,6 @@ impl Battleship {
             ]);
         }
         battleship
-    }
-
-    pub fn allocate(&mut self, ships: Vec<Square>) {
-        for ship in ships {
-            let mut x0: u8 = 0;
-            let mut y0: u8 = 0;
-
-            let size = match ship {
-                Square::Battleship => ShipSize::Battleship as u8,
-                Square::Destroyer => ShipSize::Destroyer as u8,
-                _ => 0,
-            };
-
-            let mut rng = rand::thread_rng();
-
-            loop {
-                let direction = match random::<bool>() {
-                    true => Direction::Vertical,
-                    false => Direction::Horizontal,
-                };
-
-                if direction == Direction::Vertical {
-                    x0 = rng.gen_range(0..self.width);
-                    y0 = rng.gen_range(0..self.height - size + 1);
-                } else if direction == Direction::Horizontal {
-                    x0 = rng.gen_range(0..self.width - size + 1);
-                    y0 = rng.gen_range(0..self.height);
-                }
-
-                let vessel_id = self.fill(x0, y0, size, direction, ship);
-                if vessel_id != -1 {
-                    self.pending.push(size);
-                    break;
-                }
-            }
-        }
     }
 
     pub fn fill(&mut self, x0: u8, y0: u8, size: u8, direction: Direction, value: Square) -> i16 {
@@ -143,7 +123,7 @@ impl Battleship {
         vessel_id
     }
 
-    pub fn shoot(&mut self, coordinate: &str) -> Option<(Result, Position)> {
+    pub fn shoot(&mut self, coordinate: &str) -> Option<Shot> {
         match coordinate.len() {
             2 | 3 => (),
             _ => return None,
@@ -200,7 +180,7 @@ impl Battleship {
         result
     }
 
-    fn _shoot(&mut self, x: u8, y: u8) -> (Result, Position) {
+    fn _shoot(&mut self, x: u8, y: u8) -> Shot {
         let mut result = Result::Miss;
 
         let position = self.grid[y as usize][x as usize];
@@ -218,13 +198,51 @@ impl Battleship {
             _ => (),
         }
 
-        (result, position)
+        Shot(result, position)
+    }
+}
+
+impl Battleship {
+    pub fn allocate(&mut self, ships: Vec<Square>) {
+        for ship in ships {
+            let mut x0: u8 = 0;
+            let mut y0: u8 = 0;
+
+            let size = match ship {
+                Square::Battleship => ShipSize::Battleship as u8,
+                Square::Destroyer => ShipSize::Destroyer as u8,
+                _ => 0,
+            };
+
+            let mut rng = rand::thread_rng();
+
+            loop {
+                let direction = match random::<bool>() {
+                    true => Direction::Vertical,
+                    false => Direction::Horizontal,
+                };
+
+                if direction == Direction::Vertical {
+                    x0 = rng.gen_range(0..self.width);
+                    y0 = rng.gen_range(0..self.height - size + 1);
+                } else if direction == Direction::Horizontal {
+                    x0 = rng.gen_range(0..self.width - size + 1);
+                    y0 = rng.gen_range(0..self.height);
+                }
+
+                let vessel_id = self.fill(x0, y0, size, direction, ship);
+                if vessel_id != -1 {
+                    self.pending.push(size);
+                    break;
+                }
+            }
+        }
     }
 }
 
 impl Default for Battleship {
     fn default() -> Self {
-        Self::new((10, 10), true)
+        Self::new(Size(10, 10), true)
     }
 }
 

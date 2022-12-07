@@ -1,12 +1,12 @@
 use std::io::{self, Write};
 
-use battlerust::game::{Battleship, Square};
+use battlerust::game::{Battleship, Size, Square};
 
 fn main() {
     println!("Welcome to Battleship 🛥️");
     println!("You can use the HELP command to obtain help");
 
-    let mut game = Battleship::new((10, 10), true);
+    let mut game = Battleship::new(Size(10, 10), true);
 
     let mut line;
 

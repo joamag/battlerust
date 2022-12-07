@@ -1,12 +1,15 @@
 import React, { FC, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { Footer, Link, PanelSplit, Section } from "emukit";
+import { Board } from "./components";
+import { Battleship } from "../lib/battlerust";
 
 type AppProps = {
+    game: Battleship;
     background?: string;
 };
 
-export const App: FC<AppProps> = ({ background }) => {
+export const App: FC<AppProps> = ({ game, background }) => {
     useEffect(() => {
         document.body.style.backgroundColor = `#${background}`;
     }, []);
@@ -14,8 +17,8 @@ export const App: FC<AppProps> = ({ background }) => {
         <div>
             <PanelSplit
                 left={
-                    <div className="game-container">
-                        This is the section for the battleship
+                    <div className="board-container">
+                        <Board game={game} />
                     </div>
                 }
             >
@@ -34,8 +37,10 @@ export const App: FC<AppProps> = ({ background }) => {
 export const startApp = (
     element: string,
     {
+        game,
         background
     }: {
+        game: Battleship;
         background?: string;
     }
 ) => {
@@ -43,5 +48,5 @@ export const startApp = (
     if (!elementRef) return;
 
     const root = ReactDOM.createRoot(elementRef);
-    root.render(<App background={background} />);
+    root.render(<App game={game} background={background} />);
 };
