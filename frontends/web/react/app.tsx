@@ -141,7 +141,7 @@ export const App: FC<AppProps> = ({ game, background }) => {
                     text={"Battlerust"}
                     version={info.version}
                     versionUrl={
-                        "https://github.com/joamag/battlerust/CHANGELOG.md"
+                        "https://github.com/joamag/battlerust/blob/master/CHANGELOG.md"
                     }
                 ></Title>
                 <Section>
