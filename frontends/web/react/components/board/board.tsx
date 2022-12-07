@@ -28,10 +28,10 @@ export const Board: FC<BoardProps> = ({ game, style = [] }) => {
     return (
         <div className={classes()}>
             {Array.from(game.board()).map((number, index) => (
-                <>
+                <span key={index}>
                     {index % 10 === 0 && index !== 0 && <br />}
-                    <Square key={index} square={number_to_square(number)} />
-                </>
+                    <Square square={number_to_square(number)} />
+                </span>
             ))}
         </div>
     );

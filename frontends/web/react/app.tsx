@@ -15,10 +15,10 @@ export const App: FC<AppProps> = ({ game, background }) => {
     }, []);
     setTimeout(() => console.info(game.repr(true, true)));
     return (
-        <div>
+        <div className="app">
             <PanelSplit
                 left={
-                    <div className="board-container">
+                    <div className="display-container">
                         <Board game={game} />
                     </div>
                 }

@@ -1,3 +1,20 @@
 .board {
-    border: 2px solid green;
+    background-color: #1b1a17;
+    border: 2px solid #50cb93;
+    padding: 8px;
+    user-select: none;
+}
+
+.square {
+    display: inline-block;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.square:hover {
+    transform: scale(1.4);
+}
+
+.square:active {
+    transform: scale(0.9);
 }
