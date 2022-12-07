@@ -151,6 +151,7 @@ export const App: FC<AppProps> = ({ game, background }) => {
                     versionUrl={
                         "https://github.com/joamag/battlerust/blob/master/CHANGELOG.md"
                     }
+                    iconSrc={require("../res/robot.png")}
                 ></Title>
                 <Section>
                     <Paragraph>
