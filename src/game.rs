@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use rand::{random, Rng};
 
 #[derive(Clone, Copy, PartialEq, Eq)]
@@ -29,13 +31,13 @@ pub enum Direction {
 
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub struct Position {
-    kind: Square,
-    vessel_id: i16,
+    pub kind: Square,
+    pub vessel_id: i16,
 }
 
 pub struct Battleship {
-    width: u8,
-    height: u8,
+    pub width: u8,
+    pub height: u8,
     grid: Vec<Vec<Position>>,
     pending: Vec<u8>,
     vessel_counter: i16,
@@ -141,16 +143,16 @@ impl Battleship {
         vessel_id
     }
 
-    pub fn shoot(&mut self, coordinate: &str) -> (Result, Position) {
+    pub fn shoot(&mut self, coordinate: &str) -> Option<(Result, Position)> {
         match coordinate.len() {
             2 | 3 => (),
-            _ => println!("error"), // this must be replaced with an error
+            _ => return None,
         }
 
-        let x = (coordinate.chars().next().unwrap() as u8 - 65) as u8;
-        let y = (coordinate[1..].parse::<u8>().unwrap() - 1) as u8;
+        let x = (coordinate.chars().next()? as u8).saturating_sub(65);
+        let y = coordinate[1..].parse::<u8>().unwrap_or(0).saturating_sub(1);
 
-        self._shoot(x, y)
+        Some(self._shoot(x, y))
     }
 
     pub fn destroy(&mut self) {
@@ -159,6 +161,43 @@ impl Battleship {
                 self._shoot(x, y);
             }
         }
+    }
+
+    pub fn repr(&self, emoji: bool, axis: bool) -> String {
+        let mut buffer = Vec::<String>::new();
+
+        if axis {
+            let axis_l = (0..self.width)
+                .map(|index| ((index + 65) as char).to_string())
+                .collect::<Vec<String>>();
+            let axis_s = axis_l.join(if emoji { " " } else { "" });
+
+            buffer.push("   ".to_string());
+            buffer.push(axis_s);
+            buffer.push("\n".to_string());
+        }
+
+        for y in 0..self.height {
+            if axis {
+                buffer.push(format!("{:2} ", y + 1));
+            }
+
+            for x in 0..self.width {
+                let position = &self.grid[y as usize][x as usize];
+                let value = if emoji {
+                    position.kind.emoji()
+                } else {
+                    position.kind.value()
+                };
+                buffer.push(value.to_string())
+            }
+
+            buffer.push("\n".to_string());
+        }
+
+        let result = buffer.join("");
+        result.strip_suffix('\n').unwrap();
+        result
     }
 
     fn _shoot(&mut self, x: u8, y: u8) -> (Result, Position) {
@@ -189,6 +228,12 @@ impl Default for Battleship {
     }
 }
 
+impl Display for Battleship {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.repr(false, true))
+    }
+}
+
 impl Position {
     pub fn new() -> Self {
         Self {
@@ -201,5 +246,44 @@ impl Position {
 impl Default for Position {
     fn default() -> Self {
         Self::new()
+    }
+}
+
+impl Square {
+    pub fn value(&self) -> &str {
+        match self {
+            Square::Water => "1",
+            Square::Debris => "2",
+            Square::Battleship => "3",
+            Square::Destroyer => "4",
+        }
+    }
+
+    pub fn text(&self) -> &str {
+        match self {
+            Square::Water => "water",
+            Square::Debris => "debris",
+            Square::Battleship => "battleship",
+            Square::Destroyer => "destroyer",
+        }
+    }
+
+    pub fn emoji(&self) -> &str {
+        match self {
+            Square::Water => "🌊",
+            Square::Debris => "🪵",
+            Square::Battleship => "🚢",
+            Square::Destroyer => "⛵",
+        }
+    }
+}
+
+impl Display for Result {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Result::Miss => write!(f, "missed"),
+            Result::Shot => write!(f, "shot"),
+            Result::Sink => write!(f, "sank"),
+        }
     }
 }

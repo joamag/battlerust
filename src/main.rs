@@ -1,8 +1,65 @@
 pub mod game;
 
-use crate::game::Battleship;
+use std::io::{self, Write};
+
+use crate::game::{Battleship, Square};
 
 fn main() {
-    println!("Battlerust!");
-    Battleship::new((10, 10), true);
+    println!("Welcome to Battleship 🛥️");
+    println!("You can use the HELP command to obtain help");
+
+    let mut game = Battleship::new((10, 10), true);
+
+    let mut line;
+
+    loop {
+        line = String::new();
+
+        print!(">> ");
+        io::stdout().flush().unwrap();
+        io::stdin().read_line(&mut line).unwrap();
+
+        line = line.trim().to_string().to_uppercase();
+
+        match line.as_str() {
+            "HELP" => {
+                println!("HELP - Prints the current message");
+                println!("EXIT - Quits the current game");
+                println!("DESTROY - Destroys the current game by shooting all the vessels");
+                println!("PRINT - Prints the current state of the game to console");
+                println!("EMOJI - Prints the emoji version of the state");
+                println!("[X][Y] - Shoots the target at coordinate (eg: A5)");
+            }
+            "EXIT" => {
+                println!("Bye, bye 👋");
+                break;
+            }
+            "DESTROY" => {
+                println!("Armageddon is here 💣");
+                game.destroy();
+            }
+            "PRINT" => println!("{}", game),
+            "EMOJI" => println!("{}", game.repr(true, true)),
+            _ => {
+                if let Some(shot) = game.shoot(&line) {
+                    let result = shot.0;
+                    let position = shot.1;
+                    match position.kind {
+                        Square::Battleship | Square::Destroyer => println!(
+                            "{} You {} a {}",
+                            position.kind.emoji(),
+                            result,
+                            position.kind.text()
+                        ),
+                        _ => println!(
+                            "{} You {} ({})",
+                            position.kind.emoji(),
+                            result,
+                            position.kind.text()
+                        ),
+                    }
+                }
+            }
+        }
+    }
 }
