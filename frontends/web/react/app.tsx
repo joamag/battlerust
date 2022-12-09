@@ -99,8 +99,8 @@ export const App: FC<AppProps> = ({ game, background }) => {
 
         if (game.finished()) {
             const result = await showModal(
-                "Congratulations",
-                "You just won the game, congratulations 🎉\nDo you want to start a new game?"
+                "Congratulations 🎉",
+                "You just won the Battlerust game.\nDo you want to start a new game?"
             );
             if (result) {
                 game.restart();
