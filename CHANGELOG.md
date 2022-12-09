@@ -9,8 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-* New deployment strategy
-* Support for NPM and Crates
+*
 
 ### Changed
 
@@ -19,6 +18,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 *
+
+## [0.3.0] - 2022-12-09
+
+### Added
+
+* New deployment strategy
+* Support for NPM and Crates
 
 ## [0.2.0] - 2022-12-09
 
