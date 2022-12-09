@@ -1,15 +1,18 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, ReactNode, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
 import {
     Button,
     ButtonContainer,
     Footer,
     Link,
+    ModalManager,
+    ModalManagerHandle,
     PanelSplit,
     Paragraph,
     Section,
     Title,
-    Toast
+    ToastManager,
+    ToastManagerHandle
 } from "emukit";
 import { Board } from "./components";
 import {
@@ -37,11 +40,9 @@ export const App: FC<AppProps> = ({ game, background }) => {
     const [gameKey, setGameKey] = useState(0);
     const [gridVisible, setGridVisible] = useState(false);
     const [visited, setVisited] = useState<number[]>([]);
-    const [toastText, setToastText] = useState<string>();
-    const [toastError, setToastError] = useState(false);
-    const [toastVisible, setToastVisible] = useState(false);
 
-    const toastCounterRef = useRef(0);
+    const modalManagerRef = useRef<ModalManagerHandle>(null);
+    const toastManagerRef = useRef<ToastManagerHandle>(null);
 
     const getShowText = () => {
         return gridVisible ? "Grid Visible" : "Grid Hidden";
@@ -51,22 +52,21 @@ export const App: FC<AppProps> = ({ game, background }) => {
             ? require("../res/eye.svg")
             : require("../res/eye-closed.svg");
     };
+    const showModal = async (
+        title = "Alert",
+        text?: string,
+        contents?: ReactNode
+    ): Promise<boolean> => {
+        return (
+            (await modalManagerRef.current?.showModal(title, text, contents)) ??
+            true
+        );
+    };
     const showToast = async (text: string, error = false, timeout = 3500) => {
-        setToastText(text);
-        setToastError(error);
-        setToastVisible(true);
-        toastCounterRef.current++;
-        const counter = toastCounterRef.current;
-        await new Promise((resolve) => {
-            setTimeout(() => {
-                if (counter !== toastCounterRef.current) return;
-                setToastVisible(false);
-                resolve(true);
-            }, timeout);
-        });
+        return await toastManagerRef.current?.showToast(text, error, timeout);
     };
 
-    const onSquareClick = (coordinate: string, index: number) => {
+    const onSquareClick = async (coordinate: string, index: number) => {
         const shot = game.shoot(coordinate);
         if (!shot) return;
 
@@ -98,13 +98,15 @@ export const App: FC<AppProps> = ({ game, background }) => {
         }
 
         if (game.finished()) {
-            showToast("You just won the game, congratulations 🎉");
-            game.restart();
-            setVisited([]);
+            const result = await showModal(
+                "Congratulations",
+                "You just won the game, congratulations 🎉\nDo you want to start a new game?"
+            );
+            if (result) {
+                game.restart();
+                setVisited([]);
+            }
         }
-    };
-    const onToastCancel = () => {
-        setToastVisible(false);
     };
     const onShowClick = () => {
         setGridVisible(!gridVisible);
@@ -126,12 +128,8 @@ export const App: FC<AppProps> = ({ game, background }) => {
 
     return (
         <div className="app">
-            <Toast
-                text={toastText}
-                error={toastError}
-                visible={toastVisible}
-                onCancel={onToastCancel}
-            />
+            <ModalManager ref={modalManagerRef} />
+            <ToastManager ref={toastManagerRef} />
             <PanelSplit
                 left={
                     <div className="display-container">
