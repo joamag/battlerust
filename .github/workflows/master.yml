@@ -19,20 +19,27 @@ jobs:
       - run: |
           rustup component add rustfmt
           rustup component add clippy
+        name: Install Rust components
       - run: rustc --version
+        name: Print Rust information
       - run: cargo fmt --all -- --check
+        name: Verify Rust code format
       - run: cargo clippy -- -D warnings -A unknown-lints
+        name: Verify Rust code linting
       - run: cargo install wasm-pack
+        name: Install wasm-pack
       - run: wasm-pack build --release --target=web --out-dir=frontends/web/lib -- --features wasm
-      - run: apt-get update && apt-get install -y -q nodejs npm
       - run:
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
           export NVM_DIR="$HOME/.nvm"
           [ -s "$NVM_DIR/nvm.sh" ] \&\& \. "$NVM_DIR/nvm.sh"
-          [ -s "$NVM_DIR/bash_completion" ] \&\& . "$NVM_DIR/bash_completion
+          [ -s "$NVM_DIR/bash_completion" ] \&\& . "$NVM_DIR/bash_completion"
           nvm install stable
+        name: Install Node.js
       - run: cd frontends/web && npm install && npm run build && npm run lint
+        name: Build and lint Web code
       - run: |
           cd frontends/web/dist
           cp -rp ../static/* .
           npm_config_yes=true npx wrangler pages publish . --project-name=boytacean --branch master
+        name: Deploy packages to Cloudfare (master)
