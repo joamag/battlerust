@@ -105,6 +105,7 @@ export const App: FC<AppProps> = ({ game, background }) => {
             if (result) {
                 game.restart();
                 setVisited([]);
+                setGameKey(gameKey + 1);
             }
         }
     };
