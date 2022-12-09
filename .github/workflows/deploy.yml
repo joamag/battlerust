@@ -36,6 +36,7 @@ jobs:
     strategy:
       matrix:
         rust-version: ["1.65.0"]
+        node-version: ["16"]
     runs-on: ubuntu-latest
     container: rust:${{ matrix.rust-version }}
     steps:
@@ -54,7 +55,9 @@ jobs:
         name: Install wasm-pack
       - run: wasm-pack build --release --target=web --out-dir=frontends/web/lib -- --features wasm
         name: Build WASM Web binary
-      - run: apt-get update && apt-get install -y -q nodejs npm
+      - uses: actions/setup-node@v1
+        with:
+          node-version: matrix-node-version
         name: Install Node.js
       - run: cd frontends/web && npm install && npm run build && npm run lint
         name: Build and lint Web code

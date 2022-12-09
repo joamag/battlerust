@@ -12,6 +12,7 @@ jobs:
     strategy:
       matrix:
         rust-version: ["1.65.0"]
+        node-version: ["16"]
     runs-on: ubuntu-latest
     container: rust:${{ matrix.rust-version }}
     steps:
@@ -35,7 +36,9 @@ jobs:
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
           [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
           nvm install stable
-          echo "$HOME/.nvm/bin" >> $GITHUB_PATH
+      - uses: actions/setup-node@v1
+        with:
+          node-version: matrix-node-version
         name: Install Node.js
       - run: cd frontends/web && npm install && npm run build && npm run lint
         name: Build and lint Web code
