@@ -15,10 +15,11 @@ The player enters coordinates of the form “A5”, where "A" is the column and 
 
 ## Deployments
 
-| Provider  | Stable | URL                                                  |
-| --------- | ------ | ---------------------------------------------------- |
-| Cloudfare | `True` | [battlerust.joao.me](https://battlerust.joao.me)     |
-| Cloudfare | `True` | [battlerust.pages.dev](https://battlerust.pages.dev) |
+| Provider  | Stable  | URL                                                                |
+| --------- | ------- | ------------------------------------------------------------------ |
+| Cloudfare | `True`  | [battlerust.joao.me](https://battlerust.joao.me)                   |
+| Cloudfare | `True`  | [battlerust.pages.dev](https://battlerust.pages.dev)               |
+| Cloudfare | `False` | [master.battlerust.pages.dev](https://master.battlerust.pages.dev) |
 
 ## Build & Run
 
