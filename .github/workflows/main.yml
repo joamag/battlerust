@@ -109,7 +109,7 @@ jobs:
         name: Build WASM Web binary
       - uses: actions/setup-node@v1
         with:
-          node-version: matrix-node-version
+          node-version: ${{ matrix.rust-version }}
         name: Install Node.js
       - run: cd frontends/web && npm install && npm run build && npm run lint
         name: Build and lint Web code
