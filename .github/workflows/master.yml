@@ -29,10 +29,10 @@ jobs:
       - run: cargo install wasm-pack
         name: Install wasm-pack
       - run: wasm-pack build --release --target=web --out-dir=frontends/web/lib -- --features wasm
-      - run:
+      - run: |
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
           export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] \&\& \. "$NVM_DIR/nvm.sh"
+          [ -s "$NVM_DIR/nvm.sh" ] \&\& . "$NVM_DIR/nvm.sh"
           [ -s "$NVM_DIR/bash_completion" ] \&\& . "$NVM_DIR/bash_completion"
           nvm install stable
         name: Install Node.js
