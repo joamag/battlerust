@@ -1,6 +1,6 @@
 {
     "name": "battlerust-web",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "The web version of Battlerust",
     "repository": {
         "type": "git",
