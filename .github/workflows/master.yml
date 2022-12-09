@@ -1,0 +1,32 @@
+name: Deploy Master Workflow
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: "0 0 * * 0"
+jobs:
+  build-wasm:
+    name: Build WASM
+    timeout-minutes: 30
+    strategy:
+      matrix:
+        rust-version: ["1.65.0"]
+    runs-on: ubuntu-latest
+    container: rust:${{ matrix.rust-version }}
+    steps:
+      - uses: actions/checkout@v1
+      - run: |
+          rustup component add rustfmt
+          rustup component add clippy
+      - run: rustc --version
+      - run: cargo fmt --all -- --check
+      - run: cargo clippy -- -D warnings -A unknown-lints
+      - run: cargo install wasm-pack
+      - run: wasm-pack build --release --target=web --out-dir=frontends/web/lib -- --features wasm
+      - run: apt-get update && apt-get install -y -q nodejs npm
+      - run: cd frontends/web && npm install && npm run build && npm run lint
+      - run: |
+          cd frontends/web/dist
+          cp -rp ../static/* .
+          npm_config_yes=true npx wrangler pages publish . --project-name=boytacean --branch master

@@ -1,11 +1,30 @@
 name: Deploy Workflow
 on:
   push:
-    branches:
-      - master
-  schedule:
-    - cron: "0 0 * * 0"
+    tags:
+      - "*"
 jobs:
+  build:
+    name: Build
+    timeout-minutes: 30
+    strategy:
+      matrix:
+        rust-version: ["1.65.0"]
+    runs-on: ubuntu-latest
+    container: rust:${{ matrix.rust-version }}
+    steps:
+      - uses: actions/checkout@v1
+      - run: |
+          rustup component add rustfmt
+          rustup component add clippy
+      - run: rustc --version
+      - run: cargo fmt --all -- --check
+      - run: cargo clippy -- -D warnings -A unknown-lints
+      - run: |
+          cargo login $CRATES_TOKEN
+          cargo publish --no-verify
+        env:
+          CRATES_TOKEN: ${{ secrets.CRATES_TOKEN }}
   build-wasm:
     name: Build WASM
     timeout-minutes: 30
@@ -27,6 +46,7 @@ jobs:
       - run: apt-get update && apt-get install -y -q nodejs npm
       - run: cd frontends/web && npm install && npm run build && npm run lint
       - run: |
-          cd frontends/web/dist
-          cp -rp ../static/* .
-          npm_config_yes=true npx wrangler pages publish . --project-name=boytacean --branch master
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+          cd frontends/web/lib && npm publish
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
