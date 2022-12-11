@@ -19,7 +19,7 @@ jobs:
       - name: Checkout code from repository
         uses: actions/checkout@v3
       - name: Install Rust components
-      run: |
+        run: |
           rustup component add rustfmt
           rustup component add clippy
       - name: Print Rust information
