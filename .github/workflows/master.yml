@@ -17,6 +17,7 @@ jobs:
     container: rust:${{ matrix.rust-version }}
     steps:
       - uses: actions/checkout@v1
+        name: Checkout code from repository
       - run: |
           rustup component add rustfmt
           rustup component add clippy
