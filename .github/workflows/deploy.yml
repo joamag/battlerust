@@ -25,7 +25,7 @@ jobs:
         run: cargo fmt --all -- --check
       - name: Verify Rust code linting
         run: cargo clippy -- -D warnings -A unknown-lints
-      - name: Deploy packages to Crates
+      - name: Deploy package to Crates
         run: |
           cargo login $CRATES_TOKEN
           cargo publish --no-verify
@@ -63,7 +63,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Build and lint Web code
         run: cd frontends/web && npm install && npm run build && npm run lint
-      - name: Deploy packages to NPM
+      - name: Deploy package to NPM
         run: |
             echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
             cd frontends/web/lib && npm publish
