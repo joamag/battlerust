@@ -350,6 +350,12 @@ impl Square {
     }
 }
 
+impl Display for Square {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.text())
+    }
+}
+
 impl Result {
     pub fn text(&self) -> &str {
         match self {
