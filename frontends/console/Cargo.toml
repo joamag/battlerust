@@ -11,4 +11,6 @@ edition = "2018"
 path = "../.."
 
 [target.armv7-unknown-linux-gnueabihf]
+cc = "arm-linux-gnueabihf-gcc"
 linker = "arm-linux-gnueabihf-gcc"
+ar = "arm-linux-gnueabihf-ar"
