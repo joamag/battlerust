@@ -20,11 +20,6 @@ rand = { version = "0.8" }
 getrandom = { version = "0.2", features = ["js"] }
 wasm-bindgen = { version = "0.2", optional = true }
 
-[target.armv7-unknown-linux-gnueabihf]
-cc = "arm-linux-gnueabihf-gcc"
-linker = "arm-linux-gnueabihf-gcc"
-ar = "arm-linux-gnueabihf-ar"
-
 [profile.release]
 debug = false
 lto = true

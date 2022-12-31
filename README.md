@@ -57,7 +57,7 @@ wasmtime battlerust-console.wasm
 apt install gcc-arm-linux-gnueabihf
 rustup target add armv7-unknown-linux-gnueabihf
 cd frontends/console
-cargo build --release  --target armv7-unknown-linux-gnueabihf
+cargo build --release  --target armv7-unknown-linux-gnueabihf --config target.armv7-unknown-linux-gnueabihf.linker=\"arm-linux-gnueabihf-gcc\"
 ```
 
 ## WASM Console
