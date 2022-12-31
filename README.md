@@ -44,11 +44,20 @@ cd dist && python3 -m http.server
 ### WASM with WASI
 
 ```bash
-cd frontends/console
 rustup target add wasm32-wasi
+cd frontends/console
 cargo build --release  --target wasm32-wasi
 cd ../../target/wasm32-wasi/release
 wasmtime battlerust-console.wasm
+```
+
+### Raspberry Pi (with Linux)
+
+```bash
+apt install gcc-arm-linux-gnueabihf
+rustup target add armv7-unknown-linux-gnueabihf
+cd frontends/console
+cargo build --release  --target armv7-unknown-linux-gnueabihf
 ```
 
 ## WASM Console
