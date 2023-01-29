@@ -1,3 +1,5 @@
+#![allow(clippy::uninlined_format_args)]
+
 use std::io::{self, Write};
 
 use battlerust::game::{Battleship, Size, Square};
