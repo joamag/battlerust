@@ -24,7 +24,7 @@ jobs:
       - name: Verify Rust code format
         run: cargo fmt --all -- --check
       - name: Verify Rust code linting
-        run: cargo clippy -- -D warnings -A unknown-lints
+        run: cargo clippy -- -D warnings
       - name: Deploy package to Crates
         run: |
           cargo login $CRATES_TOKEN
@@ -52,7 +52,7 @@ jobs:
       - name: Verify Rust code format
         run: cargo fmt --all -- --check
       - name: Verify Rust code linting
-        run: cargo clippy -- -D warnings -A unknown-lints
+        run: cargo clippy -- -D warnings
       - name: Install wasm-pack
         run: cargo install wasm-pack
       - name: Build WASM Web binary
