@@ -69,3 +69,11 @@ jobs:
             cd frontends/web/lib && npm publish
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Deploy package to Cloudfare (main)
+        run: |
+          cd frontends/web/dist
+          cp -rp ../static/* .
+          npm_config_yes=true npx wrangler pages publish . --project-name=battlerust --branch main
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
