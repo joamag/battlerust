@@ -26,7 +26,4 @@ lto = true
 opt-level = 3
 
 [workspace]
-members = [
-    ".",
-    "frontends/console",
-]
+members = [".", "frontends/console"]
