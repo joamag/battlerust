@@ -1,5 +1,4 @@
 use std::fmt::Display;
-
 use rand::{random, Rng};
 
 #[cfg(feature = "wasm")]
