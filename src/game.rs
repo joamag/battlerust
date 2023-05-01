@@ -1,5 +1,5 @@
-use std::fmt::Display;
 use rand::{random, Rng};
+use std::fmt::Display;
 
 #[cfg(feature = "wasm")]
 use wasm_bindgen::prelude::*;
