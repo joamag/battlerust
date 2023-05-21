@@ -28,6 +28,8 @@ jobs:
         run: cargo fmt --all -- --check
       - name: Verify Rust code linting
         run: cargo clippy -- -D warnings -A unknown-lints
+      - name: Run unit tests
+        run: cargo test
       - name: Install wasm-pack
         run: cargo install wasm-pack
       - name: Build WASM Web binary
