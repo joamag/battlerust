@@ -44,7 +44,7 @@ jobs:
         run: |
           cd frontends/web/dist
           cp -rp ../static/* .
-          npm_config_yes=true npx wrangler pages deploy . --project-name=battlerust --branch master
+          npm_config_yes=true npx --loglevel verbose wrangler pages deploy . --project-name=battlerust --branch master
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
