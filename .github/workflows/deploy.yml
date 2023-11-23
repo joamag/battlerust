@@ -73,7 +73,7 @@ jobs:
             cd frontends/web/lib && npm publish
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Deploy package to Cloudfare (main)
+      - name: Deploy package to Cloudflare (main)
         run: |
           cd frontends/web/dist
           cp -rp ../static/* .
