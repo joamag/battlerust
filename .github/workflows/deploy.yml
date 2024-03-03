@@ -14,7 +14,7 @@ jobs:
     container: rust:${{ matrix.rust-version }}
     steps:
       - name: Checkout code from repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install Rust components
         run: |
           rustup component add rustfmt
@@ -44,7 +44,7 @@ jobs:
     container: rust:${{ matrix.rust-version }}
     steps:
       - name: Checkout code from repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install Rust components
         run: |
           rustup component add rustfmt
