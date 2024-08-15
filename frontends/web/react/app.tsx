@@ -36,7 +36,7 @@ type AppProps = {
 export const App: FC<AppProps> = ({ game, background }) => {
     useEffect(() => {
         document.body.style.backgroundColor = `#${background}`;
-    }, []);
+    }, [background]);
     const [gameKey, setGameKey] = useState(0);
     const [gridVisible, setGridVisible] = useState(false);
     const [visited, setVisited] = useState<number[]>([]);
