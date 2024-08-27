@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 
 import "./square.css";
 
@@ -9,9 +9,9 @@ type SquareProps = {
 };
 
 export const Square: FC<SquareProps> = ({ value, style = [], onClick }) => {
-    const classes = () => ["square", ...style].join(" ");
+    const classes = useMemo(() => ["square", ...style].join(" "), [style]);
     return (
-        <span className={classes()} onClick={onClick}>
+        <span className={classes} onClick={onClick}>
             {value}
         </span>
     );

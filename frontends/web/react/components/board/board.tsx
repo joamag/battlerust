@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import Square from "../square/square";
 import { Battleship, number_to_emoji } from "../../../lib/battlerust";
 
@@ -19,7 +19,7 @@ export const Board: FC<BoardProps> = ({
     style = [],
     onSquareClick
 }) => {
-    const classes = () => ["board", ...style].join(" ");
+    const classes = useMemo(() => ["board", ...style].join(" "), [style]);
     const [boardState, updateBoardState] = React.useState<Array<number>>(
         Array.from(game.board())
     );
@@ -31,7 +31,7 @@ export const Board: FC<BoardProps> = ({
         updateBoardState(Array.from(game.board()));
     };
     return (
-        <div className={classes()}>
+        <div className={classes}>
             {boardState.map((number, index) => (
                 <span key={`${index}-${number}`}>
                     {index % 10 === 0 && index !== 0 && <br />}
