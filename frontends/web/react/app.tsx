@@ -1,5 +1,3 @@
-import React, { FC, ReactNode, useEffect, useRef, useState } from "react";
-import ReactDOM from "react-dom/client";
 import {
     Button,
     ButtonContainer,
@@ -14,7 +12,9 @@ import {
     ToastManager,
     ToastManagerHandle
 } from "emukit";
-import { Board } from "./components";
+import React, { FC, ReactNode, useEffect, useRef, useState } from "react";
+import ReactDOM from "react-dom/client";
+
 import {
     Battleship,
     result_to_text,
@@ -22,8 +22,9 @@ import {
     square_to_emoji,
     square_to_text
 } from "../lib/battlerust";
-
 import info from "../package.json";
+
+import { Board } from "./components";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const require: any;

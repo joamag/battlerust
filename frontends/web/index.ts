@@ -1,5 +1,5 @@
+import { Battleship, size, default as wasm } from "./lib/battlerust";
 import { startApp } from "./react";
-import { Battleship, default as wasm, size } from "./lib/battlerust";
 
 (async () => {
     await wasm();

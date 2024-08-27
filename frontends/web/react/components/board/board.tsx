@@ -1,6 +1,7 @@
 import React, { FC, useMemo } from "react";
-import Square from "../square/square";
+
 import { Battleship, number_to_emoji } from "../../../lib/battlerust";
+import Square from "../square/square";
 
 import "./board.css";
 
