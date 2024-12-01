@@ -38,7 +38,7 @@ jobs:
     timeout-minutes: 30
     strategy:
       matrix:
-        rust-version: ["1.74.0"]
+        rust-version: ["1.78.0"]
         node-version: ["18"]
     runs-on: ubuntu-latest
     container: rust:${{ matrix.rust-version }}
