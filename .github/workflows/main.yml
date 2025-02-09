@@ -80,7 +80,7 @@ jobs:
       - name: Build WASI binary
         run: cargo build --release --target ${{ matrix.rust.target }}
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: battlerust-wasi.${{ matrix.rust.version }}.wasm
           path: target/${{ matrix.rust.target }}/release/battlerust.wasm
