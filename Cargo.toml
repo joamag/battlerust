@@ -7,6 +7,7 @@ license = "Apache-2.0"
 repository = "https://github.com/joamag/battlerust"
 keywords = ["battleship", "game", "rust"]
 edition = "2021"
+rust-version = "1.81"
 
 [lib]
 crate-type = ["cdylib", "rlib"]

@@ -5,7 +5,8 @@ authors = ["João Magalhães <joamag@gmail.com>"]
 description = "A console frontend for Battlerust"
 license = "Apache-2.0"
 keywords = ["battleship", "game", "rust", "console"]
-edition = "2018"
+edition = "2021"
+rust-version = "1.81"
 
 [dependencies.battlerust]
 path = "../.."
