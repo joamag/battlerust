@@ -77,7 +77,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: battlerust-wasi.${{ matrix.rust.version }}.wasm
-          path: target/${{ matrix.rust.target }}/release/battlerust.${{ matrix.rust.version }}.wasm
+          path: target/${{ matrix.rust.target }}/release/battlerust.wasm
           retention-days: 15
   build-wasm:
     name: Build WASM
