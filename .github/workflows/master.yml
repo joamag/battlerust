@@ -44,6 +44,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Build and lint Web code
         run: cd frontends/web && npm install && npm run build && npm run lint
+        env:
+          SWC_NATIVE_BINDING_CACHE: /tmp/swc
       - name: Deploy package to Cloudflare (master)
         run: |
           cd frontends/web/dist
